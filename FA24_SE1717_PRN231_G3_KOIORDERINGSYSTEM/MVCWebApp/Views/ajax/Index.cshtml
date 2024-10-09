@@ -4,15 +4,14 @@
             <thead>
                 <tr class="card-header">
                     <th class="card-title text-center">Name</th>
-<th class="card-title text-center">Location</th>
-<th class="card-title text-center">Price</th>
-<th class="card-title text-center">Created By</th>
-<th class="card-title text-center">Created Date</th>
-<th class="card-title text-center">Updated By</th>
-<th class="card-title text-center">Updated Date</th>
-<th class="card-title text-center">Note</th>
-<th class="card-title text-center">Active</th>
-
+                    <th class="card-title text-center">Location</th>
+                    <th class="card-title text-center">Price</th>
+                    <th class="card-title text-center">Created By</th>
+                    <th class="card-title text-center">Created Date</th>
+                    <th class="card-title text-center">Updated By</th>
+                    <th class="card-title text-center">Updated Date</th>
+                    <th class="card-title text-center">Note</th>
+                    <th class="card-title text-center">Active</th>
                    
                     <th class="card-title text-center"></th>
                 </tr>
@@ -67,7 +66,6 @@
         });
 
         function loadData() {
-            alert("Load data progressing ...");
 
             $.ajax({
                 url: '/Ajax/GetTravels',
@@ -75,21 +73,26 @@
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
                 success: function (result) {
-                    alert("Response:" + result.message);
                     var res = result.data;
                     var html = '';
                     $.each(res, function (key, item) {
                        html += '<tr>';  // Mở thẻ <tr> cho mỗi hàng
-            html += '<td>' + item.name + '</td>';           // Name
-            html += '<td>' + item.location + '</td>';       // Location
-            html += '<td>' + item.price + '</td>';          // Price
-            html += '<td>' + item.createdBy + '</td>';      // Created By
-            html += '<td>' + item.createdDate + '</td>';    // Created Date
-            html += '<td>' + item.updatedBy + '</td>';      // Updated By
-            html += '<td>' + item.updatedDate + '</td>';    // Updated Date
-            html += '<td>' + item.note + '</td>';            // Note
-            html += '<td>' + (item.isActive ? 'Yes' : 'No') + '</td>'; // Active
-            html += '</tr>';  // Đóng thẻ <tr>
+                        html += '<td>' + item.name + '</td>';           // Name
+                        html += '<td>' + item.location + '</td>';       // Location
+                        html += '<td>' + item.price + '</td>';          // Price
+                        html += '<td>' + item.createdBy + '</td>';      // Created By
+                        html += '<td>' + item.createdDate + '</td>';    // Created Date
+                        html += '<td>' + item.updatedBy + '</td>';      // Updated By
+                        html += '<td>' + item.updatedDate + '</td>';    // Updated Date
+                        html += '<td>' + item.note + '</td>';            // Note
+                        html += '<td>' + (item.isActive ? 'Yes' : 'No') + '</td>'; // Active
+                       
+                        html += '<td>' +
+                            '<a href="/Ajax/Details/' + item.id + '">Details</a> | ' +
+                            '<a href="/Ajax/Edit/' + item.id + '">Edit</a> | ' +
+                            '<a href="javascript:void(0);" onclick="deleteTravel(' + item.id + ')">Delete</a>' +
+                            '</td>';
+                        html += '</tr>';  // Đóng thẻ <tr>
                     });
                     $('.tblTravels').html(html);
                 },

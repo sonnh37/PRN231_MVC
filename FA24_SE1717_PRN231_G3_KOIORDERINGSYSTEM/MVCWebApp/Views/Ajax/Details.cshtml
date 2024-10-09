@@ -1,0 +1,63 @@
+﻿@model KoiOrderingSystem.Data.Models.Travel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div id="travelDetails">
+    <!-- Chi tiết Travel sẽ được tải vào đây -->
+</div>
+
+<div>
+    <a href="javascript:void(0);" onclick="loadTravelDetails('@Model.Id')">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Kiểm tra Model có null không trước khi gọi loadTravelDetails
+            var modelId = '@Model?.Id'; // Dùng toán tử null-conditional để tránh lỗi nếu Model là null
+            if (modelId) {
+                loadTravelDetails(modelId);
+            } else {
+                $('#travelDetails').html('<p>No travel data available.</p>');
+            }
+        });
+
+        function loadTravelDetails(id) {
+            $.ajax({
+                url: '/Ajax/GetTravelDetails', // Đường dẫn đến action GetTravelDetails
+                type: "GET",
+                data: { id: id },
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.success) {
+                        var travel = result.data;
+                        var html = '<h4>Travel</h4><hr /><dl class="row">';
+                        html += '<dt class="col-sm-2">Name</dt><dd class="col-sm-10">' + travel.name + '</dd>';
+                        html += '<dt class="col-sm-2">Location</dt><dd class="col-sm-10">' + travel.location + '</dd>';
+                        html += '<dt class="col-sm-2">Price</dt><dd class="col-sm-10">' + travel.price + '</dd>';
+                        html += '<dt class="col-sm-2">Created By</dt><dd class="col-sm-10">' + travel.createdBy + '</dd>';
+                        html += '<dt class="col-sm-2">Created Date</dt><dd class="col-sm-10">' + travel.createdDate + '</dd>';
+                        html += '<dt class="col-sm-2">Updated By</dt><dd class="col-sm-10">' + travel.updatedBy + '</dd>';
+                        html += '<dt class="col-sm-2">Updated Date</dt><dd class="col-sm-10">' + travel.updatedDate + '</dd>';
+                        html += '<dt class="col-sm-2">Is Deleted</dt><dd class="col-sm-10">' + travel.isDeleted + '</dd>';
+                        html += '<dt class="col-sm-2">Note</dt><dd class="col-sm-10">' + travel.note + '</dd>';
+                        html += '</dl>';
+                        $('#travelDetails').html(html);  // Cập nhật nội dung chi tiết
+                    } else {
+                        $('#travelDetails').html('<p>' + result.message + '</p>');
+                    }
+                },
+                error: function (xhr, error) {
+                    alert('Error: ' + xhr.statusText);
+                    console.log(xhr, error);
+                }
+            });
+        }
+    </script>
+}
