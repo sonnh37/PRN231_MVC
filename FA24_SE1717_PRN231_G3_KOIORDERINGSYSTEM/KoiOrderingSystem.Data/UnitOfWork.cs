@@ -7,6 +7,7 @@ namespace KoiOrderingSystem.Data
     {
         private FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext context;
         private TravelRepository travelRepository;
+        private UserRepository userRepository;
         public UnitOfWork()
         {
             context ??= new FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext();
@@ -14,6 +15,9 @@ namespace KoiOrderingSystem.Data
 
         public TravelRepository TravelRepository
         { get { return travelRepository ??= new TravelRepository(context); } }
+
+        public UserRepository UserRepository
+        { get { return userRepository ??= new UserRepository(context); } }
 
         ////TO-DO CODE HERE/////////////////
 

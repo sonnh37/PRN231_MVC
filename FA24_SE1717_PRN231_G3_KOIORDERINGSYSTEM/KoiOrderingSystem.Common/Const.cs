@@ -3,6 +3,7 @@
     public class Const
     {
         public static string APIEndPoint = "https://localhost:9876/api/";
+        public static readonly DateTime ExpirationLogin = DateTime.Now.AddHours(1);
 
 
         #region Error Codes
