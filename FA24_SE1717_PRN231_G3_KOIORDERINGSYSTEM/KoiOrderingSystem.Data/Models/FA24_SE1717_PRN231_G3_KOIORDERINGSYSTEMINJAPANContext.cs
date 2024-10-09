@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace KoiOrderingSystem.Data.Models;
 
@@ -51,9 +52,18 @@ public partial class FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext : DbC
 
     public virtual DbSet<User> Users { get; set; }
 
+    public static string GetConnectionString(string connectionStringName)
+    {
+        var config = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+        string connectionString = config.GetConnectionString(connectionStringName);
+        return connectionString;
+    }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPAN;Integrated Security=True;Encrypt=False");
+        => optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -71,9 +81,11 @@ public partial class FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext : DbC
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.Status).IsRequired();
 
-            entity.HasOne(d => d.Customer).WithMany(p => p.CustomerServices).HasForeignKey(d => d.CustomerId);
+            entity.HasOne(d => d.Customer).WithMany(p => p.CustomerServices).HasForeignKey(d => d.CustomerId)
+            .OnDelete(DeleteBehavior.SetNull);
 
-            entity.HasOne(d => d.Travel).WithMany(p => p.CustomerServices).HasForeignKey(d => d.TravelId);
+            entity.HasOne(d => d.Travel).WithMany(p => p.CustomerServices).HasForeignKey(d => d.TravelId)
+            .OnDelete(DeleteBehavior.SetNull);
         });
 
         modelBuilder.Entity<Delivery>(entity =>
@@ -236,11 +248,11 @@ public partial class FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext : DbC
 
             entity.HasOne(d => d.Farm).WithMany(p => p.TravelFarms)
                 .HasForeignKey(d => d.FarmId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasOne(d => d.Travel).WithMany(p => p.TravelFarms)
                 .HasForeignKey(d => d.TravelId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<User>(entity =>

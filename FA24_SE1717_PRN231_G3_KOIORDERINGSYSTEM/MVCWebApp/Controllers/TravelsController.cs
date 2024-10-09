@@ -36,8 +36,8 @@ namespace MVCWebApp.Controllers
                     }
                 }
             }
-            return Json(new List<Travel>()); // Trả về danh sách rỗng nếu có lỗi
-        }
+            return Json(new List<Travel>());
+        } 
         public async Task<IActionResult> Index()
         {
             using (var httpClient = new HttpClient())
@@ -59,7 +59,6 @@ namespace MVCWebApp.Controllers
             }
             return View();
         }
-
 
         // GET: Travels/Details/5
         public async Task<IActionResult> Details(Guid? id)
@@ -91,8 +90,6 @@ namespace MVCWebApp.Controllers
         }
 
         // POST: Travels/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Location,Price,CreateDate,CreatedBy,UpdatedBy,UpdateDate,IsDeleted,Note")] Travel travel)
@@ -124,50 +121,31 @@ namespace MVCWebApp.Controllers
         // GET: Travels/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var travel = await _context.Travels.FindAsync(id);
-            if (travel == null)
-            {
-                return NotFound();
-            }
-            return View(travel);
+            return await this.Details(id);
         }
 
         // POST: Travels/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,Location,Price,CreateDate,CreatedBy,UpdatedBy,UpdateDate,IsDeleted,Note")] Travel travel)
         {
-            if (id != travel.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
+                using (var httpClient = new HttpClient())
                 {
-                    _context.Update(travel);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TravelExists(travel.Id))
+                    using (var response = await httpClient.PutAsJsonAsync(Const.APIEndPoint + "Travels/", travel))
                     {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var content = await response.Content.ReadAsStringAsync();
+                            var result = JsonConvert.DeserializeObject<BusinessResult>(content);
+                            if (result != null && result.Status == Const.SUCCESS_CREATE_CODE)
+                            {
+                                return RedirectToAction(nameof(Index));
+                            }
+                        }
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
             return View(travel);
         }
@@ -175,19 +153,7 @@ namespace MVCWebApp.Controllers
         // GET: Travels/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var travel = await _context.Travels
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (travel == null)
-            {
-                return NotFound();
-            }
-
-            return View(travel);
+            return await this.Details(id);
         }
 
         // POST: Travels/Delete/5
@@ -195,19 +161,26 @@ namespace MVCWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var travel = await _context.Travels.FindAsync(id);
-            if (travel != null)
+            using (var httpClient = new HttpClient())
             {
-                _context.Travels.Remove(travel);
+                using (var response = await httpClient.DeleteAsync(Const.APIEndPoint + "Travels/" + id))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = await response.Content.ReadAsStringAsync();
+                        var result = JsonConvert.DeserializeObject<BusinessResult>(content);
+
+                        if (result != null && result.Data != null)
+                        {
+                            return RedirectToAction(nameof(Index));
+                        } else
+                        {
+                            return View(result);
+                        }
+                    }
+                }
             }
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool TravelExists(Guid id)
-        {
-            return _context.Travels.Any(e => e.Id == id);
         }
     }
 }

@@ -1,4 +1,6 @@
+using KoiOrderingSystem.Data.Models;
 using KoiOrderingSystem.Service;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

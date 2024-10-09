@@ -17,6 +17,11 @@ namespace KoiOrderingSystem.Data.Base
             _context = context;
         }
 
+        public FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext Context()
+        {
+            return _context;
+        }
+
         public List<T> GetAll()
         {
             return _context.Set<T>().ToList();

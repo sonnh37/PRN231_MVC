@@ -2,6 +2,7 @@
 using KoiOrderingSystem.Data;
 using KoiOrderingSystem.Data.Models;
 using KoiOrderingSystem.Service.Base;
+using Microsoft.EntityFrameworkCore;
 
 namespace KoiOrderingSystem.Service
 {
@@ -88,7 +89,9 @@ namespace KoiOrderingSystem.Service
 
                 if (travelTmp != null)
                 {
-                    result = await _unitOfWork.TravelRepository.UpdateAsync(currency);
+                    _unitOfWork.TravelRepository.Context().Entry(travelTmp).CurrentValues.SetValues(currency);
+
+                    result = await _unitOfWork.TravelRepository.UpdateAsync(travelTmp);
 
                     if (result > 0)
                     {
