@@ -1,0 +1,56 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr class="card-header">
+                    <th class="card-title text-center">Name</th>
+                    <th class="card-title text-center">Location</th>
+                    <th class="card-title text-center">Created Data</th>
+                    <th class="card-title text-center">Active</th>
+
+                   
+                    <th class="card-title text-center"></th>
+                </tr>
+            </thead>
+            <tbody class="tblTravels">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            loadData();
+        });
+
+        function loadData() {
+            alert("Load data progressing ...");
+
+            $.ajax({
+                url: 'https://localhost:7183/api/Travels',
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    alert("Response:" + result.message);
+                    var res = result.data;
+                    var html = '';
+                    $.each(res, function (key, item) {
+                        html += '<tr>';  // Mở thẻ <tr> cho mỗi hàng
+                        html += '<td>' + item.name + '</td>';
+                        html += '<td>' + item.location + '</td>';
+                        html += '<td>' + item.createDate + '</td>';  // Thêm cột CreateDate
+                        html += '<td>' + item.isDeleted + '</td>';  // Thêm cột IsDeleted
+                        html += '</tr>';  // Đóng thẻ <tr>
+                    });
+                    $('.tblTravels').html(html);
+                },
+                error: function (xhr, error) {
+                    alert(xhr.statusText);
+                    console.log(xhr, error);  // In ra lỗi trong console
+                }
+            });
+        }
+    </script>
+}
