@@ -16,28 +16,7 @@ namespace MVCWebApp.Controllers
             _context = context;
         }
 
-        // GET: Travels
-        public async Task<JsonResult> GetTravels()
-        {
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync(Const.APIEndPoint + "Travels"))
-                {
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var content = await response.Content.ReadAsStringAsync();
-                        var result = JsonConvert.DeserializeObject<BusinessResult>(content);
-
-                        if (result != null && result.Data != null)
-                        {
-                            var data = JsonConvert.DeserializeObject<List<Travel>>(result.Data.ToString());
-                            return Json(data);
-                        }
-                    }
-                }
-            }
-            return Json(new List<Travel>());
-        } 
+        
         public async Task<IActionResult> Index()
         {
             using (var httpClient = new HttpClient())

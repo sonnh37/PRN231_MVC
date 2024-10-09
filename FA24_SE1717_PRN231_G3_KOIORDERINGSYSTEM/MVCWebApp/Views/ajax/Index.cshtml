@@ -4,9 +4,14 @@
             <thead>
                 <tr class="card-header">
                     <th class="card-title text-center">Name</th>
-                    <th class="card-title text-center">Location</th>
-                    <th class="card-title text-center">Created Data</th>
-                    <th class="card-title text-center">Active</th>
+<th class="card-title text-center">Location</th>
+<th class="card-title text-center">Price</th>
+<th class="card-title text-center">Created By</th>
+<th class="card-title text-center">Created Date</th>
+<th class="card-title text-center">Updated By</th>
+<th class="card-title text-center">Updated Date</th>
+<th class="card-title text-center">Note</th>
+<th class="card-title text-center">Active</th>
 
                    
                     <th class="card-title text-center"></th>
@@ -18,7 +23,44 @@
     </div>
 </div>
 
-@section scripts {
+
+ @section scripts {
+      <!--<script type="text/javascript">
+          $(document).ready(function () {
+              loadData();
+          });
+
+          function loadData() {
+              alert("Load data progressing ...");
+
+              $.ajax({
+                  url: 'https://localhost:9876/api/Travels',
+                  type: "GET",
+                  contentType: "application/json;charset=utf-8",
+                  dataType: "json",
+                  success: function (result) {
+                      alert("Response:" + result.message);
+                      var res = result.data;
+                      var html = '';
+                      $.each(res, function (key, item) {
+                          html += '<tr>';  // Mở thẻ <tr> cho mỗi hàng
+                          html += '<td>' + item.name + '</td>';
+                          html += '<td>' + item.location + '</td>';
+                          html += '<td>' + item.createDate + '</td>';  // Thêm cột CreateDate
+                          html += '<td>' + item.isDeleted + '</td>';  // Thêm cột IsDeleted
+                          html += '</tr>';  // Đóng thẻ <tr>
+                      });
+                      $('.tblTravels').html(html);
+                  },
+                  error: function (xhr, error) {
+                      alert(xhr.statusText);
+                      console.log(xhr, error);  // In ra lỗi trong console
+                  }
+              });
+          }
+    </script>-->
+
+    
     <script type="text/javascript">
         $(document).ready(function () {
             loadData();
@@ -28,7 +70,7 @@
             alert("Load data progressing ...");
 
             $.ajax({
-                url: 'https://localhost:9876/api/Travels',
+                url: '/Ajax/GetTravels',
                 type: "GET",
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
@@ -37,12 +79,17 @@
                     var res = result.data;
                     var html = '';
                     $.each(res, function (key, item) {
-                        html += '<tr>';  // Mở thẻ <tr> cho mỗi hàng
-                        html += '<td>' + item.name + '</td>';
-                        html += '<td>' + item.location + '</td>';
-                        html += '<td>' + item.createDate + '</td>';  // Thêm cột CreateDate
-                        html += '<td>' + item.isDeleted + '</td>';  // Thêm cột IsDeleted
-                        html += '</tr>';  // Đóng thẻ <tr>
+                       html += '<tr>';  // Mở thẻ <tr> cho mỗi hàng
+            html += '<td>' + item.name + '</td>';           // Name
+            html += '<td>' + item.location + '</td>';       // Location
+            html += '<td>' + item.price + '</td>';          // Price
+            html += '<td>' + item.createdBy + '</td>';      // Created By
+            html += '<td>' + item.createdDate + '</td>';    // Created Date
+            html += '<td>' + item.updatedBy + '</td>';      // Updated By
+            html += '<td>' + item.updatedDate + '</td>';    // Updated Date
+            html += '<td>' + item.note + '</td>';            // Note
+            html += '<td>' + (item.isActive ? 'Yes' : 'No') + '</td>'; // Active
+            html += '</tr>';  // Đóng thẻ <tr>
                     });
                     $('.tblTravels').html(html);
                 },
@@ -53,4 +100,5 @@
             });
         }
     </script>
-}
+
+ }
