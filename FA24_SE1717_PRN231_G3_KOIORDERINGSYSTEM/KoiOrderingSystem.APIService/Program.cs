@@ -1,8 +1,4 @@
-using KoiOrderingSystem.Data;
-using KoiOrderingSystem.Data.Models;
-using KoiOrderingSystem.Data.Repository;
 using KoiOrderingSystem.Service;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +10,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("https://localhost:7287")
+        policy.WithOrigins("https://localhost:3000")
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();

@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using KoiOrderingSystem.Data.Models;
 using KoiOrderingSystem.Service;
 using KoiOrderingSystem.Service.Base;
-using System.Diagnostics;
-using KoiOrderingSystem.Data.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KoiOrderingSystem.APIService.Controllers
 {
@@ -18,7 +11,7 @@ namespace KoiOrderingSystem.APIService.Controllers
     {
         private readonly ITravelService _travelService;
 
-        public TravelsController()=> _travelService ??= new TravelService();
+        public TravelsController() => _travelService ??= new TravelService();
 
         // GET: api/Travels
         [HttpGet]
