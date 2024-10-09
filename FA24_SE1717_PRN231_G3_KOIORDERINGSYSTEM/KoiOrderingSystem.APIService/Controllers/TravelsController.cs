@@ -29,7 +29,7 @@ namespace KoiOrderingSystem.APIService.Controllers
 
         // GET: api/Travels/5
         [HttpGet("{id}")]
-        public async Task<IBusinessResult> GetTravel(int id)
+        public async Task<IBusinessResult> GetTravel(Guid id)
         {
             return await _travelService.GetById(id);
         }
@@ -52,7 +52,7 @@ namespace KoiOrderingSystem.APIService.Controllers
 
         // DELETE: api/Travels/5
         [HttpDelete("{id}")]
-        public async Task<IBusinessResult> DeleteTravel(int id)
+        public async Task<IBusinessResult> DeleteTravel(Guid id)
         {
             return await _travelService.DeleteById(id);
         }

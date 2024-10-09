@@ -14,9 +14,9 @@ namespace MVCWebApp.Controllers
 {
     public class TravelsController : Controller
     {
-        private readonly TestFAContext _context;
+        private readonly FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext _context;
 
-        public TravelsController(TestFAContext context)
+        public TravelsController(FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext context)
         {
             _context = context;
         }
@@ -127,7 +127,7 @@ namespace MVCWebApp.Controllers
         }
 
         // GET: Travels/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -147,7 +147,7 @@ namespace MVCWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Location,Price,CreateDate,CreatedBy,UpdatedBy,UpdateDate,IsDeleted,Note")] Travel travel)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,Location,Price,CreateDate,CreatedBy,UpdatedBy,UpdateDate,IsDeleted,Note")] Travel travel)
         {
             if (id != travel.Id)
             {
@@ -178,7 +178,7 @@ namespace MVCWebApp.Controllers
         }
 
         // GET: Travels/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -198,7 +198,7 @@ namespace MVCWebApp.Controllers
         // POST: Travels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var travel = await _context.Travels.FindAsync(id);
             if (travel != null)
@@ -210,7 +210,7 @@ namespace MVCWebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TravelExists(int id)
+        private bool TravelExists(Guid id)
         {
             return _context.Travels.Any(e => e.Id == id);
         }

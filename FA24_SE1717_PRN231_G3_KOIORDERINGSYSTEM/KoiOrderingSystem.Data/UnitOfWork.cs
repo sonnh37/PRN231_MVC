@@ -5,11 +5,11 @@ namespace KoiOrderingSystem.Data
 {
     public class UnitOfWork
     {
-        private TestFAContext context;
+        private FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext context;
         private TravelRepository travelRepository;
         public UnitOfWork()
         {
-            context ??= new TestFAContext();
+            context ??= new FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext();
         }
 
         public TravelRepository TravelRepository

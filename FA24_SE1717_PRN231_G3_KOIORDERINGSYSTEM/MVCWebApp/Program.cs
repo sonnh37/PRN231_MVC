@@ -7,7 +7,7 @@ builder.Services.AddControllersWithViews();
 
 
 
-builder.Services.AddScoped<TestFAContext>();
+builder.Services.AddScoped<FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

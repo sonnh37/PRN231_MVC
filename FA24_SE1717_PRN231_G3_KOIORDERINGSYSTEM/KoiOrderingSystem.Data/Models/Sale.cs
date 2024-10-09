@@ -7,27 +7,35 @@ namespace KoiOrderingSystem.Data.Models;
 
 public partial class Sale
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
-    public int? CustomerServiceId { get; set; }
+    public Guid? CustomerServiceId { get; set; }
 
-    public int? SaleStaffId { get; set; }
-
-    public decimal? TotalPrice { get; set; }
+    public Guid? SaleStaffId { get; set; }
 
     public string ProposalDetails { get; set; }
 
-    public string ApprovalStatus { get; set; }
+    public decimal? TotalPrice { get; set; }
 
-    public DateTime? CreateDate { get; set; }
+    public string Status { get; set; }
+
+    public DateTime? ResponseDate { get; set; }
+
+    public string ResponseBy { get; set; }
 
     public string CreatedBy { get; set; }
 
+    public DateTime? CreatedDate { get; set; }
+
     public string UpdatedBy { get; set; }
 
-    public DateTime? UpdateDate { get; set; }
+    public DateTime? UpdatedDate { get; set; }
 
-    public bool? IsDeleted { get; set; }
+    public bool IsDeleted { get; set; }
+
+    public string Note { get; set; }
 
     public virtual CustomerService CustomerService { get; set; }
+
+    public virtual User SaleStaff { get; set; }
 }

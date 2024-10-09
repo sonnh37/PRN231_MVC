@@ -7,25 +7,47 @@ namespace KoiOrderingSystem.Data.Models;
 
 public partial class User
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
-    public string FirstName { get; set; }
+    public string Image { get; set; }
 
-    public string LastName { get; set; }
+    public string Firstname { get; set; }
 
-    public string Email { get; set; }
+    public string Lastname { get; set; }
 
-    public string Password { get; set; }
+    public DateOnly? Dob { get; set; }
+
+    public string Address { get; set; }
 
     public string Gender { get; set; }
 
+    public string Role { get; set; }
+
+    public string Username { get; set; }
+
+    public string Password { get; set; }
+
     public string Phone { get; set; }
 
-    public string Role { get; set; }
+    public string Email { get; set; }
+
+    public string CreatedBy { get; set; }
+
+    public DateTime? CreatedDate { get; set; }
+
+    public string UpdatedBy { get; set; }
+
+    public DateTime? UpdatedDate { get; set; }
+
+    public bool IsDeleted { get; set; }
 
     public string Note { get; set; }
 
-    public virtual ICollection<Customer> Customers { get; set; } = new List<Customer>();
+    public virtual ICollection<CustomerService> CustomerServices { get; set; } = new List<CustomerService>();
+
+    public virtual ICollection<Delivery> Deliveries { get; set; } = new List<Delivery>();
 
     public virtual ICollection<KoiOrder> KoiOrders { get; set; } = new List<KoiOrder>();
+
+    public virtual ICollection<Sale> Sales { get; set; } = new List<Sale>();
 }

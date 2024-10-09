@@ -7,37 +7,39 @@ namespace KoiOrderingSystem.Data.Models;
 
 public partial class Delivery
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
-    public int? KoiOrderId { get; set; }
+    public Guid? KoiOrderId { get; set; }
 
-    public int? DeliveryStaffId { get; set; }
+    public Guid? DeliveryStaffId { get; set; }
 
     public string Code { get; set; }
 
-    public string RecipientName { get; set; }
-
-    public string Address { get; set; }
+    public string Name { get; set; }
 
     public string Phone { get; set; }
 
-    public decimal? RemainingPayment { get; set; }
+    public string Address { get; set; }
+
+    public decimal? TotalAmount { get; set; }
 
     public bool? PaymentReceived { get; set; }
 
-    public DateTime? DeliveryDate { get; set; }
-
     public string CreatedBy { get; set; }
+
+    public DateTime? CreatedDate { get; set; }
 
     public string UpdatedBy { get; set; }
 
     public DateTime? UpdatedDate { get; set; }
 
-    public bool? IsDeleted { get; set; }
+    public bool IsDeleted { get; set; }
 
     public string Note { get; set; }
 
-    public string DeliveryStatus { get; set; }
+    public virtual ICollection<DeliveryDetail> DeliveryDetails { get; set; } = new List<DeliveryDetail>();
+
+    public virtual User DeliveryStaff { get; set; }
 
     public virtual KoiOrder KoiOrder { get; set; }
 }

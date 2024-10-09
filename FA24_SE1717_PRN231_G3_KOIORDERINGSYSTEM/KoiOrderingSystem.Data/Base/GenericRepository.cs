@@ -5,14 +5,14 @@ namespace KoiOrderingSystem.Data.Base
 {
     public class GenericRepository<T> where T : class
     {
-        protected TestFAContext _context;
+        protected FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext _context;
 
         public GenericRepository()
         {
-            _context ??= new TestFAContext();
+            _context ??= new FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext();
         }
 
-        public GenericRepository(TestFAContext context)
+        public GenericRepository(FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext context)
         {
             _context = context;
         }

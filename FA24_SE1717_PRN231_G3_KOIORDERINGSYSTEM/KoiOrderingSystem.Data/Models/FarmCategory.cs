@@ -5,17 +5,11 @@ using System.Collections.Generic;
 
 namespace KoiOrderingSystem.Data.Models;
 
-public partial class ServiceOrder
+public partial class FarmCategory
 {
-    public Guid Id { get; set; }
+    public Guid FarmId { get; set; }
 
-    public Guid? CustomerServiceId { get; set; }
-
-    public Guid? InvoiceId { get; set; }
-
-    public int? Quantity { get; set; }
-
-    public decimal? TotalPrice { get; set; }
+    public Guid CategoryId { get; set; }
 
     public string CreatedBy { get; set; }
 
@@ -27,9 +21,7 @@ public partial class ServiceOrder
 
     public bool IsDeleted { get; set; }
 
-    public string Note { get; set; }
+    public virtual Category Category { get; set; }
 
-    public virtual CustomerService CustomerService { get; set; }
-
-    public virtual Invoice Invoice { get; set; }
+    public virtual Farm Farm { get; set; }
 }

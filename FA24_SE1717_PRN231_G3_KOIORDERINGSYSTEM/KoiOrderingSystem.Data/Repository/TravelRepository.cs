@@ -9,7 +9,7 @@ namespace KoiOrderingSystem.Data.Repository
 
         public TravelRepository() { }
 
-        public TravelRepository(TestFAContext testFAContext)
+        public TravelRepository(FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext testFAContext)
             => _context = testFAContext;
         public async Task<List<Travel>> GetAllAsync()
         {

@@ -9,11 +9,11 @@ namespace KoiOrderingSystem.Service
     public interface ITravelService
     {
         Task<IBusinessResult> GetAll();
-        Task<IBusinessResult> GetById(int code);
+        Task<IBusinessResult> GetById(Guid code);
         Task<IBusinessResult> Create(Travel currency);
         Task<IBusinessResult> Update(Travel currency);
         Task<IBusinessResult> Save(Travel currency);
-        Task<IBusinessResult> DeleteById(int code);
+        Task<IBusinessResult> DeleteById(Guid code);
     }
 
     public class TravelService : ITravelService
@@ -28,7 +28,7 @@ namespace KoiOrderingSystem.Service
             throw new NotImplementedException();
         }
 
-        public async Task<IBusinessResult> DeleteById(int code)
+        public async Task<IBusinessResult> DeleteById(Guid code)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace KoiOrderingSystem.Service
             return new BusinessResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG, travels);
         }
 
-        public async Task<IBusinessResult> GetById(int code)
+        public async Task<IBusinessResult> GetById(Guid code)
         {
             var travelTmp = await _unitOfWork.TravelRepository.GetByIdAsync(code);
 

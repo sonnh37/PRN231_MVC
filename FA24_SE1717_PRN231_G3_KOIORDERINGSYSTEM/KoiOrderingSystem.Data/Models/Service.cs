@@ -7,7 +7,7 @@ namespace KoiOrderingSystem.Data.Models;
 
 public partial class Service
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public string ServiceName { get; set; }
 
@@ -15,15 +15,17 @@ public partial class Service
 
     public decimal? Price { get; set; }
 
-    public DateTime? CreateDate { get; set; }
-
     public string CreatedBy { get; set; }
+
+    public DateTime? CreatedDate { get; set; }
 
     public string UpdatedBy { get; set; }
 
-    public DateTime? UpdateDate { get; set; }
+    public DateTime? UpdatedDate { get; set; }
 
-    public bool? IsDeleted { get; set; }
+    public bool IsDeleted { get; set; }
 
     public string Note { get; set; }
+
+    public virtual ICollection<CustomerService> CustomerServices { get; set; } = new List<CustomerService>();
 }

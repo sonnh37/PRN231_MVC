@@ -5,17 +5,15 @@ using System.Collections.Generic;
 
 namespace KoiOrderingSystem.Data.Models;
 
-public partial class ServiceOrder
+public partial class DeliveryDetail
 {
     public Guid Id { get; set; }
 
-    public Guid? CustomerServiceId { get; set; }
+    public Guid? DeliveryId { get; set; }
 
-    public Guid? InvoiceId { get; set; }
+    public string Name { get; set; }
 
-    public int? Quantity { get; set; }
-
-    public decimal? TotalPrice { get; set; }
+    public string Description { get; set; }
 
     public string CreatedBy { get; set; }
 
@@ -29,7 +27,5 @@ public partial class ServiceOrder
 
     public string Note { get; set; }
 
-    public virtual CustomerService CustomerService { get; set; }
-
-    public virtual Invoice Invoice { get; set; }
+    public virtual Delivery Delivery { get; set; }
 }

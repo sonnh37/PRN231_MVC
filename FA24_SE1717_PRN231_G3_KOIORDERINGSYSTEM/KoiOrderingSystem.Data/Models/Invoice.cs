@@ -7,27 +7,23 @@ namespace KoiOrderingSystem.Data.Models;
 
 public partial class Invoice
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public decimal? PaymentAmount { get; set; }
 
     public DateTime? PaymentDate { get; set; }
 
-    public string PaymentMethod { get; set; }
-
-    public string PaymentStatus { get; set; }
-
-    public DateTime? CreateDate { get; set; }
-
     public string CreatedBy { get; set; }
+
+    public DateTime? CreatedDate { get; set; }
 
     public string UpdatedBy { get; set; }
 
-    public DateTime? UpdateDate { get; set; }
+    public DateTime? UpdatedDate { get; set; }
 
-    public bool? IsDeleted { get; set; }
+    public bool IsDeleted { get; set; }
 
-    public virtual ICollection<KoiOrder> KoiOrders { get; set; } = new List<KoiOrder>();
+    public virtual KoiOrder KoiOrder { get; set; }
 
-    public virtual ICollection<ServiceOrder> ServiceOrders { get; set; } = new List<ServiceOrder>();
+    public virtual ServiceOrder ServiceOrder { get; set; }
 }
