@@ -1,10 +1,18 @@
+﻿using Grpc.Net.Client;
+using KoiOrderingSystem.APIService.Grpcs;
 using KoiOrderingSystem.Data.Models;
+using MVCWebApp.Grpcs;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSingleton(services =>
+{
+    var channel = GrpcChannel.ForAddress("https://localhost:9876"); // Địa chỉ của gRPC server
+    return new TravelGrpcService_.TravelGrpcService_Client(channel);
+});
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
 
 
 builder.Services.AddScoped<FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext>();

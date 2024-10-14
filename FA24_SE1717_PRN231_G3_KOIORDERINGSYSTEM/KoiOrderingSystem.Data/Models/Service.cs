@@ -27,5 +27,5 @@ public partial class Service
 
     public string Note { get; set; }
 
-    public virtual ICollection<CustomerService> CustomerServices { get; set; } = new List<CustomerService>();
+    public virtual ICollection<BookingRequest> BookingRequests { get; set; } = new List<BookingRequest>();
 }

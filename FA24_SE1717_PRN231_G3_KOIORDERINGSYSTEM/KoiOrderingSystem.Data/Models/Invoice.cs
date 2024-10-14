@@ -23,6 +23,8 @@ public partial class Invoice
 
     public bool IsDeleted { get; set; }
 
+    public string Note { get; set; }
+
     public virtual KoiOrder KoiOrder { get; set; }
 
     public virtual ServiceOrder ServiceOrder { get; set; }

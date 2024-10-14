@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KoiOrderingSystem.Common", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KoiOrderingSystem.APIService", "KoiOrderingSystem.APIService\KoiOrderingSystem.APIService.csproj", "{4346B5EE-13E2-466F-AD34-CFE48D9AEAA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCWebApp", "MVCWebApp\MVCWebApp.csproj", "{E3DC903A-6940-4A7D-97B0-7343AF358FED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVCWebApp", "MVCWebApp\MVCWebApp.csproj", "{E3DC903A-6940-4A7D-97B0-7343AF358FED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

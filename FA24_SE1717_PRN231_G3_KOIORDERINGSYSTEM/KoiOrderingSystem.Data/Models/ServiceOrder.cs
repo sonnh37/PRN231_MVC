@@ -9,7 +9,7 @@ public partial class ServiceOrder
 {
     public Guid Id { get; set; }
 
-    public Guid? CustomerServiceId { get; set; }
+    public Guid? BookingRequestId { get; set; }
 
     public Guid? InvoiceId { get; set; }
 
@@ -29,7 +29,7 @@ public partial class ServiceOrder
 
     public string Note { get; set; }
 
-    public virtual CustomerService CustomerService { get; set; }
+    public virtual BookingRequest BookingRequest { get; set; }
 
     public virtual Invoice Invoice { get; set; }
 }

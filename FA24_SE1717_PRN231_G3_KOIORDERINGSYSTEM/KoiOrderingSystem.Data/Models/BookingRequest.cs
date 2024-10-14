@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace KoiOrderingSystem.Data.Models;
 
-public partial class CustomerService
+public partial class BookingRequest
 {
     public Guid Id { get; set; }
 

@@ -1,0 +1,29 @@
+﻿@model IEnumerable<KoiOrderingSystem.APIService.Grpcs.TravelRequest>
+
+@{
+    ViewBag.Title = "Travel List";
+}
+
+<h2>Travel List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Note</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var travel in Model)
+        {
+            <tr>
+                <td>@travel.Id</td>
+                <td>@travel.Name</td>
+                <td>@travel.Location</td>
+                <td>@travel.Note</td>
+            </tr>
+        }
+    </tbody>
+</table>

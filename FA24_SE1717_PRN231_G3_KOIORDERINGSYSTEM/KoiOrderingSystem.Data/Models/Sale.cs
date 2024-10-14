@@ -9,7 +9,7 @@ public partial class Sale
 {
     public Guid Id { get; set; }
 
-    public Guid? CustomerServiceId { get; set; }
+    public Guid? BookingRequestId { get; set; }
 
     public Guid? SaleStaffId { get; set; }
 
@@ -35,7 +35,7 @@ public partial class Sale
 
     public string Note { get; set; }
 
-    public virtual CustomerService CustomerService { get; set; }
+    public virtual BookingRequest BookingRequest { get; set; }
 
     public virtual User SaleStaff { get; set; }
 }

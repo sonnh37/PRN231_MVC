@@ -9,7 +9,7 @@ public partial class KoiFish
 {
     public Guid Id { get; set; }
 
-    public DateTime Dob { get; set; }
+    public DateTime? Dob { get; set; }
 
     public Guid? CategoryId { get; set; }
 
@@ -21,7 +21,7 @@ public partial class KoiFish
 
     public string Status { get; set; }
 
-    public DateTime DateSold { get; set; }
+    public DateTime? DateSold { get; set; }
 
     public string Gender { get; set; }
 
@@ -34,6 +34,8 @@ public partial class KoiFish
     public DateTime? UpdatedDate { get; set; }
 
     public bool IsDeleted { get; set; }
+
+    public string Note { get; set; }
 
     public virtual Category Category { get; set; }
 

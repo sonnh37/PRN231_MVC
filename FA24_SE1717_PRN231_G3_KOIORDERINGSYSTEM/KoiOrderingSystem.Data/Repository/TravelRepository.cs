@@ -13,7 +13,7 @@ namespace KoiOrderingSystem.Data.Repository
             => _context = testFAContext;
         public async Task<List<Travel>> GetAllAsync()
         {
-            return await _context.Set<Travel>().Include(m => m.CustomerServices).ToListAsync();
+            return await _context.Set<Travel>().Include(m => m.BookingRequests).ToListAsync();
         }
     }
 }

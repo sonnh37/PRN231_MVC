@@ -15,11 +15,11 @@
    "T4TemplatePath": null,
    "Tables": [
       {
-         "Name": "[dbo].[Category]",
+         "Name": "[dbo].[BookingRequest]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[CustomerService]",
+         "Name": "[dbo].[Category]",
          "ObjectType": 0
       },
       {
@@ -67,7 +67,7 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[ServiceXCustomerService]",
+         "Name": "[dbo].[ServiceXBookingRequest]",
          "ObjectType": 0
       },
       {

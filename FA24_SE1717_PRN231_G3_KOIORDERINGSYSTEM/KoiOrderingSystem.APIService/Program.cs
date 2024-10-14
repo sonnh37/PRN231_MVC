@@ -1,4 +1,5 @@
-﻿using KoiOrderingSystem.Data.Models;
+﻿using KoiOrderingSystem.APIService.Grpcs;
+using KoiOrderingSystem.Data.Models;
 using KoiOrderingSystem.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.OData;
@@ -9,6 +10,8 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddGrpc();
 
 // Add services to the container.
 
@@ -125,5 +128,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGrpcService<TravelGrpcService>();  // Thêm dịch vụ gRPC ở đây
 
 app.Run();

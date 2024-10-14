@@ -23,6 +23,8 @@ public partial class Category
 
     public bool IsDeleted { get; set; }
 
+    public string Note { get; set; }
+
     public virtual ICollection<FarmCategory> FarmCategories { get; set; } = new List<FarmCategory>();
 
     public virtual ICollection<KoiFish> KoiFishes { get; set; } = new List<KoiFish>();

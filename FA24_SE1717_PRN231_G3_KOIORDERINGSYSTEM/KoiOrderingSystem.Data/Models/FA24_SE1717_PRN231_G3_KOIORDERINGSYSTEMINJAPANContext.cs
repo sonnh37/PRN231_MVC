@@ -18,9 +18,9 @@ public partial class FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext : DbC
     {
     }
 
-    public virtual DbSet<Category> Categories { get; set; }
+    public virtual DbSet<BookingRequest> BookingRequests { get; set; }
 
-    public virtual DbSet<CustomerService> CustomerServices { get; set; }
+    public virtual DbSet<Category> Categories { get; set; }
 
     public virtual DbSet<Delivery> Deliveries { get; set; }
 
@@ -67,6 +67,21 @@ public partial class FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext : DbC
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<BookingRequest>(entity =>
+        {
+            entity.ToTable("BookingRequest");
+
+            entity.HasIndex(e => e.CustomerId, "IX_BookingRequest_CustomerId");
+
+            entity.HasIndex(e => e.TravelId, "IX_BookingRequest_TravelId");
+
+            entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
+
+            entity.HasOne(d => d.Customer).WithMany(p => p.BookingRequests).HasForeignKey(d => d.CustomerId);
+
+            entity.HasOne(d => d.Travel).WithMany(p => p.BookingRequests).HasForeignKey(d => d.TravelId);
+        });
+
         modelBuilder.Entity<Category>(entity =>
         {
             entity.ToTable("Category");
@@ -74,23 +89,15 @@ public partial class FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext : DbC
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
         });
 
-        modelBuilder.Entity<CustomerService>(entity =>
-        {
-            entity.ToTable("CustomerService");
-
-            entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
-            entity.Property(e => e.Status).IsRequired();
-
-            entity.HasOne(d => d.Customer).WithMany(p => p.CustomerServices).HasForeignKey(d => d.CustomerId)
-            .OnDelete(DeleteBehavior.SetNull);
-
-            entity.HasOne(d => d.Travel).WithMany(p => p.CustomerServices).HasForeignKey(d => d.TravelId)
-            .OnDelete(DeleteBehavior.SetNull);
-        });
-
         modelBuilder.Entity<Delivery>(entity =>
         {
             entity.ToTable("Delivery");
+
+            entity.HasIndex(e => e.DeliveryStaffId, "IX_Delivery_DeliveryStaffId");
+
+            entity.HasIndex(e => e.KoiOrderId, "IX_Delivery_KoiOrderId")
+                .IsUnique()
+                .HasFilter("([KoiOrderId] IS NOT NULL)");
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.TotalAmount).HasColumnType("decimal(10, 2)");
@@ -103,6 +110,8 @@ public partial class FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext : DbC
         modelBuilder.Entity<DeliveryDetail>(entity =>
         {
             entity.ToTable("DeliveryDetail");
+
+            entity.HasIndex(e => e.DeliveryId, "IX_DeliveryDetail_DeliveryId");
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
 
@@ -121,6 +130,8 @@ public partial class FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext : DbC
             entity.HasKey(e => new { e.FarmId, e.CategoryId });
 
             entity.ToTable("FarmCategory");
+
+            entity.HasIndex(e => e.CategoryId, "IX_FarmCategory_CategoryId");
 
             entity.HasOne(d => d.Category).WithMany(p => p.FarmCategories)
                 .HasForeignKey(d => d.CategoryId)
@@ -143,8 +154,9 @@ public partial class FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext : DbC
         {
             entity.ToTable("KoiFish");
 
+            entity.HasIndex(e => e.CategoryId, "IX_KoiFish_CategoryId");
+
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
-            entity.Property(e => e.Gender).IsRequired();
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
 
             entity.HasOne(d => d.Category).WithMany(p => p.KoiFishes).HasForeignKey(d => d.CategoryId);
@@ -153,6 +165,12 @@ public partial class FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext : DbC
         modelBuilder.Entity<KoiOrder>(entity =>
         {
             entity.ToTable("KoiOrder");
+
+            entity.HasIndex(e => e.CustomerId, "IX_KoiOrder_CustomerId");
+
+            entity.HasIndex(e => e.InvoiceId, "IX_KoiOrder_InvoiceId")
+                .IsUnique()
+                .HasFilter("([InvoiceId] IS NOT NULL)");
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.TotalPrice).HasColumnType("decimal(10, 2)");
@@ -166,6 +184,10 @@ public partial class FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext : DbC
         {
             entity.ToTable("OrderDetail");
 
+            entity.HasIndex(e => e.KoiFishId, "IX_OrderDetail_KoiFishId");
+
+            entity.HasIndex(e => e.KoiOrderId, "IX_OrderDetail_KoiOrderId");
+
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
 
@@ -176,11 +198,16 @@ public partial class FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext : DbC
 
         modelBuilder.Entity<Sale>(entity =>
         {
+            entity.HasIndex(e => e.BookingRequestId, "IX_Sales_BookingRequestId")
+                .IsUnique()
+                .HasFilter("([BookingRequestId] IS NOT NULL)");
+
+            entity.HasIndex(e => e.SaleStaffId, "IX_Sales_SaleStaffId");
+
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
-            entity.Property(e => e.Status).IsRequired();
             entity.Property(e => e.TotalPrice).HasColumnType("decimal(10, 2)");
 
-            entity.HasOne(d => d.CustomerService).WithOne(p => p.Sale).HasForeignKey<Sale>(d => d.CustomerServiceId);
+            entity.HasOne(d => d.BookingRequest).WithOne(p => p.Sale).HasForeignKey<Sale>(d => d.BookingRequestId);
 
             entity.HasOne(d => d.SaleStaff).WithMany(p => p.Sales).HasForeignKey(d => d.SaleStaffId);
         });
@@ -192,20 +219,20 @@ public partial class FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext : DbC
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
 
-            entity.HasMany(d => d.CustomerServices).WithMany(p => p.Services)
+            entity.HasMany(d => d.BookingRequests).WithMany(p => p.Services)
                 .UsingEntity<Dictionary<string, object>>(
-                    "ServiceXcustomerService",
-                    r => r.HasOne<CustomerService>().WithMany()
-                        .HasForeignKey("CustomerServiceId")
+                    "ServiceXbookingRequest",
+                    r => r.HasOne<BookingRequest>().WithMany()
+                        .HasForeignKey("BookingRequestId")
                         .OnDelete(DeleteBehavior.ClientSetNull),
                     l => l.HasOne<Service>().WithMany()
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.ClientSetNull),
                     j =>
                     {
-                        j.HasKey("ServiceId", "CustomerServiceId");
-                        j.ToTable("ServiceXCustomerService");
-                        j.HasIndex(new[] { "CustomerServiceId" }, "IX_ServiceXCustomerService_CustomerServiceId");
+                        j.HasKey("ServiceId", "BookingRequestId");
+                        j.ToTable("ServiceXBookingRequest");
+                        j.HasIndex(new[] { "BookingRequestId" }, "IX_ServiceXBookingRequest_BookingRequestId");
                     });
         });
 
@@ -213,10 +240,16 @@ public partial class FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext : DbC
         {
             entity.ToTable("ServiceOrder");
 
+            entity.HasIndex(e => e.BookingRequestId, "IX_ServiceOrder_BookingRequestId");
+
+            entity.HasIndex(e => e.InvoiceId, "IX_ServiceOrder_InvoiceId")
+                .IsUnique()
+                .HasFilter("([InvoiceId] IS NOT NULL)");
+
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.TotalPrice).HasColumnType("decimal(10, 2)");
 
-            entity.HasOne(d => d.CustomerService).WithMany(p => p.ServiceOrders).HasForeignKey(d => d.CustomerServiceId);
+            entity.HasOne(d => d.BookingRequest).WithMany(p => p.ServiceOrders).HasForeignKey(d => d.BookingRequestId);
 
             entity.HasOne(d => d.Invoice).WithOne(p => p.ServiceOrder).HasForeignKey<ServiceOrder>(d => d.InvoiceId);
         });
@@ -225,9 +258,13 @@ public partial class FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext : DbC
         {
             entity.ToTable("Size");
 
+            entity.HasIndex(e => e.KoiFishId, "IX_Size_KoiFishId")
+                .IsUnique()
+                .HasFilter("([KoiFishId] IS NOT NULL)");
+
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
-            entity.Property(e => e.SizeInCm).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.SizeInGram).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.SizeInCm).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.SizeInGram).HasColumnType("decimal(10, 2)");
 
             entity.HasOne(d => d.KoiFish).WithOne(p => p.Size).HasForeignKey<Size>(d => d.KoiFishId);
         });
@@ -246,13 +283,15 @@ public partial class FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext : DbC
 
             entity.ToTable("TravelFarm");
 
+            entity.HasIndex(e => e.FarmId, "IX_TravelFarm_FarmId");
+
             entity.HasOne(d => d.Farm).WithMany(p => p.TravelFarms)
                 .HasForeignKey(d => d.FarmId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             entity.HasOne(d => d.Travel).WithMany(p => p.TravelFarms)
                 .HasForeignKey(d => d.TravelId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -260,8 +299,6 @@ public partial class FA24_SE1717_PRN231_G3_KOIORDERINGSYSTEMINJAPANContext : DbC
             entity.ToTable("User");
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
-            entity.Property(e => e.Gender).IsRequired();
-            entity.Property(e => e.Role).IsRequired();
         });
 
         OnModelCreatingPartial(modelBuilder);
