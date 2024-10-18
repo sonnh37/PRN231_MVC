@@ -14,7 +14,6 @@ namespace KoiOrderingSystem.APIService.Controllers
 {
     [Route("odata/[controller]")]
     [ApiController]
-    [Authorize]
     public class TravelsOdataController : ODataController
     {
         private readonly ITravelService _travelService;

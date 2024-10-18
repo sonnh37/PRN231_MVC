@@ -1,12 +1,14 @@
 ﻿using KoiOrderingSystem.Data.Models;
 using KoiOrderingSystem.Service;
 using KoiOrderingSystem.Service.Base;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KoiOrderingSystem.APIService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TravelsController : ControllerBase
     {
         private readonly ITravelService _travelService;
